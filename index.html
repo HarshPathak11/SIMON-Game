@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon</title>
+    <style>
+        body {
+            color:white;
+            background-color: #011F3F;
+        }
+        .heading{
+            /* border-bottom: 2px solid black; */
+            height: 10em;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .sec{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            /* border: 2px solid black; */
+
+        }
+        .pad{
+            width: 30vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.5em;
+            /* border: 2px solid black; */
+        }
+        .key{
+            
+            height: 10.5rem;
+            width: 11.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 2px solid black; */
+
+        }
+        button{
+            height: 150px;
+            width: 150px;
+            border: 10px solid black;
+            border-radius: 20%;
+        }
+        #b11{
+            background-color: red;
+        }
+        #b22{
+            background-color: blue;
+        }
+        #b33{
+            background-color: green;
+        }
+        #b44{
+            background-color: yellow;
+        }
+
+
+    </style>
+</head>
+
+<body onload="kk()">
+    <div class="heading">
+        <h1>Press a key to Start</h1>
+    </div>
+    <div class="sec">
+        <div class="pad">
+            <div class="key"><button id="b11"></button></div>
+            <div class="key"><button id="b22"></button></div>
+            <div class="key"><button id="b33"></button></div>
+            <div class="key"><button id="b44"></button></div>
+        </div>
+    </div>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+    <script>
+        function nn(){}
+        function kk(){
+        let s="";
+        let k=1;
+        let t="";
+        
+        let gamesequence=[];
+        let userseq=[];
+        let flag=0;
+
+        $(document).keypress(function(event){
+            console.log(event.key)
+            if(flag==0){
+                flag=1;
+            game();}})
+
+
+
+        function game(){
+            setTimeout(function(){
+             /*input */ 
+             $("h1").text("LEVEL "+k);
+            let r=Math.floor(Math.random()*4+1);
+            console.log(r);
+            switch(r)
+            {
+                case 1: 
+                $("#b11").animate({opacity:0.5});
+                s=s+"b11";
+                gamesequence.push("red");
+                break;
+                case 2: 
+                $("#b22").animate({opacity:0.5});
+                s=s+"b22";
+                gamesequence.push("blue");
+                break;
+                case 3: 
+                $("#b33").animate({opacity:0.5});
+                s=s+"b33";
+                gamesequence.push("green");
+                break;
+                case 4: 
+                $("#b44").animate({opacity:0.5});
+                s=s+"b44";
+                gamesequence.push("yellow");
+                break;
+            }
+            
+            setTimeout(function(){$("button").css("opacity","1")},500)
+        })}
+        $("button").click(function(){
+                
+                console.log("clicked")
+                console.log()
+                switch(event.target.id)
+            {
+                case "b11": 
+                $("#b11").fadeOut().fadeIn();
+                s=s+"b11";
+                userseq.push("red");
+                break;
+                case "b22": 
+                $("#b22").fadeOut().fadeIn();
+                s=s+"b22";
+                userseq.push("blue");
+                break;
+                case "b33": 
+                $("#b33").fadeOut().fadeIn();
+                s=s+"b33";
+                userseq.push("green");
+                break;
+                case "b44": 
+                $("#b44").fadeOut().fadeIn();
+                s=s+"b44";
+                userseq.push("yellow");
+                break;
+            } 
+                setTimeout(function(){
+                $("button").css("opacity","1.0");},100)
+                console.log(userseq);
+                console.log(gamesequence);
+                
+                
+                check(userseq.length-1);
+            })
+
+
+
+
+
+             function check(currentLevel){
+                if(userseq[currentLevel]===gamesequence[currentLevel]){
+                if(userseq.length === gamesequence.length )
+                    { k=k+1;
+                      
+                      userseq=[];
+                      setTimeout(game,1000)
+                    }
+                    console.log(userseq);
+                    console.log(gamesequence);
+
+                    }
+                else
+            {console.log("lost");
+                $("h1").text("Game over, Reload to Play Again");
+                $(document.body).css("background-color","red");
+                setTimeout(function(){
+                    $(document.body).css("background-color","#011F3F");
+                      
+                },100)
+                reset();
+
+            }}
+
+
+            function reset(){
+                flag=0;
+                k=1;
+                gamesequence=[];
+            }
+        }    
+    </script>
+</body>
+
+</html>
